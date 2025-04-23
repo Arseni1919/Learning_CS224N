@@ -41,7 +41,6 @@ The idea of the _negative sampling_ is to avoid the huge sum operation in the de
 There we use the word vectors and try to learn the classification problem, e.g. is "Paris" a name or a location. It is done with labeled dataset with supervised learning.
 
 
-
 ## Lecture 3 - Backpropagation, Neural Network
 
 
