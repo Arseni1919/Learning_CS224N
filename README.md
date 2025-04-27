@@ -128,6 +128,8 @@ A new _seq2seq_ model was introduced.
 The _seq2seq_ model took over the world by just two years - all major companies adapted this seq2seq model for translation and other seq2seq tasks.
 
 
+## Lecture 7 - Attention and LLM Intro
+
 
 
 ## Credits
