@@ -43,6 +43,56 @@ There we use the word vectors and try to learn the classification problem, e.g. 
 
 ## Lecture 3 - Backpropagation, Neural Network
 
+The big idea of NN is that it is magical how there are self-organization processes that are going on while learning.
+
+In the original idea of neurons pople used the step function that does not has a gradient.
+So the trick was to use some functions tha do has gradients: logistic (sigmoid), tanh, hard tanh,  ReLU, Leaky ReLU, etc.
+
+In the lecture he gave examples of math and backprop concepts.
+
+## Lecture 4 - Dependency Parsing
+
+- Phrase structure organizes words into nested constituents.
+- Dependency structure shows which words depend on (modify, attach to, or are argument of) which other words.
+
+Why is sentence structure needed for communication? - A model needs to understand sentence structure in order to be able to interpret language correctly.
+
+In the assignment 2, they ask to build a dependency parser by ourselves.
+
+An example of a parser:
+
+<img src="pics/par_1.png" width="700">
+
+<img src="pics/par_2.png" width="700">
+
+
+## Lecture 5 - Recurrent Neural
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Credits
+
+- [CS224N: Natural Language Processing with Deep Learning](https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1246/)
+
+
+
+
+
 
 
 
