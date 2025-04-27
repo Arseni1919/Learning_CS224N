@@ -68,19 +68,64 @@ An example of a parser:
 
 ## Lecture 5 - Recurrent Neural
 
+For a long time NN were a nice idea that did not work at all in reality. But after 15-20 years people figured out the missing parts, and it turns out it was very small and simple tricks that helped.
+- One of the tricks is **regularization**. Once done by adding some weights to the loss. Now it is more about the Dropout layers.
+- Another trick is to use **vectorization** - use vectors instead of loops.
+- Next trick - **parameter initialization**. Initialize weights to small random  values (not zero matrices).
+- And there are **optimizers**. Use _Adam_.
+
+_Language Modeling_ is the task of predicting what word comes next.
+Another definition, a _language mode_ is a system that assigns a probability to a piece of text.
+
+In the pre-learning era, there are many techniques for LMs. One of them is _n-gram Model_.
+
+<img src="pics/n_gram.png" width="700">
+
+They are bad in terms of memory, context, probabilities and more, but they are easy to build. And  nothing better were back then.
+Surprisingly they produce grammatically not so bad texts.
+
+Next era - neural language models.
+
+Simple Fully Connected feed forward network with a single hidden layer did a bit better than n-grams, but still there are problems: window size is small, no positional embedding, not so scalable.
+
+Next step - _Recurrent Neural Networks (RNN)_.
+
+<img src="pics/rnn_1.png" width="700">
+
+Pros:
+- any length
+- can use info from many steps back
+- model size does not increase
+- there is a symmetry in how inputs are processed
+
+Cons:
+- slow
+- in practice, difficult to access info many steps back
+
+In the lecture, it is described in detail how the training of RNNs works and some examples are shown.
 
 
+## Lecture 6 - Sequence to Sequence
 
+Back in a days, the common metric to measure how well the LM performs was _perplexity_ - inverse prob of corpus, according to LM. Lower perplexity is better.
 
+There is inherent instability in RNNs. The gradient or explodes or vanishes in the process of training.
+In practice, RNNs will only condition ~7 tokens back.
 
+Then, the _Long Short-Term Memory (LSTM)_ models improved a bit RNNs.
 
+<img src="pics/lstm_1.png" width="700">
 
+The nice novel idea of LSTMs is the plus sign, when it adds the info from previous steps not by multiplying but by summation (similar to how people do it).
+The LSTM architecture improved the memory to be ~100 tokens back instead of ~7 in RNNs.
 
+_Neural Machine Translation (NMT)_ is a way to do Machine Translation with a single end-to-end neural network.
 
+A new _seq2seq_ model was introduced. 
 
+<img src="pics/nmt.png" width="700">
 
-
-
+The _seq2seq_ model took over the world by just two years - all major companies adapted this seq2seq model for translation and other seq2seq tasks.
 
 
 
