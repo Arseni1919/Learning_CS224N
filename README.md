@@ -81,7 +81,7 @@ In the pre-learning era, there are many techniques for LMs. One of them is _n-gr
 
 <img src="pics/n_gram.png" width="700">
 
-They are bad in terms of memory, context, probabilities and more, but they are easy to build. And  nothing better were back then.
+They are bad in terms of memory, context, probabilities, and more, but they are easy to build. And  nothing better were back then.
 Surprisingly they produce grammatically not so bad texts.
 
 Next era - neural language models.
@@ -130,7 +130,59 @@ The _seq2seq_ model took over the world by just two years - all major companies 
 
 ## Lecture 7 - Attention and LLM Intro
 
+**How do we evaluate machine translation?**
 
+Commonest way: BLEU (Bilingual Evaluation Understudy): compare the machine-written translation to one or several human-written translation(s), and computes a similarity _score based_ on:
+- Geometric mean of n-gram precision (usually from 1 to 4 grams)
+- Plus a penalty for too-short system translations  
+
+It is good to have several translations, but in practice it is only one translation available.
+
+BLUE is useful but imperfect: there are many valid translations, therefore, a good translation can achieve a low score.
+
+
+**Why attention? Sequence-to-sequence: the bottleneck problem**
+
+Idn LSTM-like architectures, everything in encoded in a single vector before it starts translate. Attention provides a solution to the bottleneck problem.
+
+Core idea: on each step of the decoder, use direct connection to the encoder to focus on a particular part of the source sentence.
+
+In the lecture, it is shown how to use this idea of attention together with LSTM. Google developed quite a good performing model with it.
+
+Attention is great:
+- significantly improves Neural MT performance
+- provides a more "human-like" model for MT process
+- solves the bottleneck problem
+- helps with the vanishing gradient problem
+- provides some interpretability; by inspecting attention distribution, we see what the decoder was focusing on
+
+<img src="pics/att_1.png" width="700">
+
+There are many ways how you can compute the _attention scores_ $e$ from $h$ and $s$ vectors:
+- basic dot-product attention
+- multiplicative attention
+- reduced-rank multiplicative attention (the winner)
+- additive attention
+
+Example of dot-product attention:
+
+<img src="pics/att_2.png" width="700">
+
+Example of reduced-rank attention:
+
+<img src="pics/att_3.png" width="700">
+
+The details are in slides.
+
+Attention can be used in many different areas other than MT.
+A more general definition of attention:
+> Given a set of vector _values_, and a vector _query_, **attention** is a technique to compute a weighted sum of the values, dependent on the query.
+
+Intuition:
+- The weighted sun is a _selective summary_ of the information contained in the values, where the query determines which values to focus on.
+- Attention is a way to obtain a _fixed-size representation of an arbitrary set of representations_ (the values), dependent on some other representations (the query).
+- Attention has become the powerful, flexible, general way pointer and memory manipulation in all DL models.
+ 
 
 ## Credits
 
