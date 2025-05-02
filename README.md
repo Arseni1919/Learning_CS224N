@@ -183,6 +183,17 @@ Intuition:
 - Attention is a way to obtain a _fixed-size representation of an arbitrary set of representations_ (the values), dependent on some other representations (the query).
 - Attention has become the powerful, flexible, general way pointer and memory manipulation in all DL models.
  
+Next, in the lecture, the final project setting is discussed with some useful resources for ideas and datasets.
+
+
+## Lecture 8 - Self-Attention and Transformers
+
+Basically, before Transformers, most of the NLP tasks were addressed by some kind of LSTM systems. Then, researchers added an attention mechanism to LSTMs and it improved performance.
+
+**Issues with recurrent models: linear interaction distance**
+
+
+
 
 ## Credits
 
