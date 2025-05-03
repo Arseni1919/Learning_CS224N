@@ -303,6 +303,53 @@ Now, to build vocabularies, we use sub-words. The example is the _byte-pair enco
 
 **Motivating word meaning and context**
 
+Example: I record the record.
+
+It is important to understand the context of the word to understand it correctly.
+
+LLMs learn from the sentences with masked words and they try to predict the masked word.
+
+- Step 1: pretrain on language modeling (predict next word)
+- Step 2: finetune on your task (sentiment analysis, etc.)
+
+So why not to pretrain to the final task from the beginning. Why we do the two steps anyway? Because the first stage is crucial really helps the training, and the researches are not sure why exactly. 
+The intuition for this is that the general pretraining that has a lot of data (way more data than the data for finetuning) and can learn wonderful parameters to continue from for the other task. Maybe the right parameters for the other tasks are not far away from the pretrained ones.
+
+To train an encoder, we use the masked words in the sentence and try to predict them. We chose the words to mask randomly.
+
+<img src="pics/tran_1.png" width="700">
+
+**BERT**
+
+The BERT model is a classical example for the Encoder Transformer. The authors there proposed the "Masked LM". It is trained by masking the word in a sentence and replacing it with:
+- the same word
+- some random work
+- the \[MASK\] token
+The reason for this is that it learns not only from the \[MASK\] token but from random words and cases as well, so that it will be ready for any task.
+
+BERT was massively popular and hugely versatile; finetuning BERT led to new SOTA results on a broad range of tasks:
+- QQP: detect paraphrase questions
+- QNLI: natural language inference over question answering data
+- SST-2: sentiment analysis
+- CoLA: detect whether sentences are grammatical
+- STS-B: semantic textual similarity
+- MRPC: microsoft paraphrase corpus
+- RTE: natural language inference corpus
+
+All of these metrics were for different kinds of algorithms where people finetuned their super special approach to get a bit better results on every metric. Then came BERT and shook the ground by outperforming everyone with a simple transformer model.
+
+The BERT model took a lot of GPUs (relatively) to train. But a single GPU is enough to finetuning stage!
+"_Pretrain once, finetune many times._"
+We will not use BERT for text generation, because it was not trained for the task. Instead, it is perfect for classification and other similar tasks.
+Some variations came after:
+- RoBERTa: mainly just train BERT for longer and remove next sentence prediction
+- SpanBERT: masking several words in raw (contiguous spans of words) makes a harder, more useful pretraining task
+
+If you want to use BERT, just use RoBERTa instead - much better.
+
+ 
+
+
 
 
 
