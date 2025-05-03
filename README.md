@@ -213,7 +213,7 @@ We can think of **attention** as performing fuzzy lookup in a key-value store:
 
 <img src="pics/att_5.png" width="700">
 
-**Barriers and **
+**Barriers and Solutions**
 
 - Problem: Doesn't have an inherent notion of order
 - Solution: learned absolute position representations: let all $p_i$ be learnable parameters! Learn a matrix $p \in R^{d \times n}$, and let each $p_i$ be _a column of that matrix_!
@@ -222,7 +222,7 @@ We can think of **attention** as performing fuzzy lookup in a key-value store:
 - Easy fix: add a feed forward (FF) network to post-process each output vector
 
 - Problem: need to ensure we don't "look at the future" when predicting a sequence, like a MT or language modeling
-- Solution: TO enable parallelization, we mask out attention to future words by setting attention scores to $-\infty$.
+- Solution: to enable parallelization, we mask out attention to future words by setting attention scores to $-\infty$.
 
 **Necessities for a self-attention building block** 
 
@@ -245,7 +245,7 @@ But first, let's formulate our multiplications in form off matrices:
 <img src="pics/att_8.png" width="700">
 
 Another nice trick is called _Scaled Dot Product_. 
-When dimentionality $d$ grows, the dot products between vectors tend to grow as well. To balance that we do a little trick by dividing the the attantion scores by $\sqrt{\frac{d}{h}}$.
+When dimentionality $d$ grows, the dot products between vectors tend to grow as well. To balance that we do a little trick by dividing the the attention scores by $\sqrt{\frac{d}{h}}$. 
 
 <img src="pics/att_9.png" width="700">
 
@@ -265,6 +265,33 @@ Layer normalization:
 
 In practice, the $\gamma$ and $\beta$ parts are not so important.
 
+That's it! We have out Transformer:
+- self-attention
+- Add & Norm
+- FF
+- Add & Norm
+
+<img src="pics/att_12.png" width="400">
+
+The **encoder** is _exactly_ like a **decoder** but _without Masking_.
+
+**The Transformer Encoder-Decoder**
+
+<img src="pics/att_13.png" width="700">
+
+Pretty similar to the encoder and decoder that we saw before, but here we do some extra operation where we do so-called _cross-attention_. In the additional Multi-Head Attention layer, we use out decoder outputs as a queries and the encoder outputs as keys and values.
+
+<img src="pics/att_14.png" width="700">
+
+In all benchmarks, Transformers took over the field, and now almost every new model is a transformer-based model.
+
+The problems:
+- quadratic compute in self-attention
+- position representation
+
+
+
+## Lecture 9 - Pretraining
 
 
 
