@@ -347,10 +347,30 @@ Some variations came after:
 
 If you want to use BERT, just use RoBERTa instead - much better.
 
+How you finetune networks? 
+
+Encoder: You can finetune the whole network but it is memory expensive; you can pretrain some parts of networks; you can learn the prefix vectors that help to solve the task.
+
+Encoder-Decoder: you can use regular language modeling pretraining; you can use span corruption (masking) for translations.
+
+T5 is the encoder-decoder model that first showed some behavior of question answering like ChatGPT. It was finetuned via question-answer dataset.
  
+Decoder: almost all biggest models in the world are Decoders. It is not sure why. Maybe because it is a little bit simpler and all the parameters are in one network and not in two distinct networks.  Decoder is a language model. Decoders cannot look into the future. It can also do sentiment analysis. All the techniques for finetuning that we discussed in the Encoder section are relevant for Decoder as well.
+
+Then came GPT and GPT2 networks that worked the best at time. 
+
+GPT3 was much bigger and showed learning even **without gradient steps** simply from examples you provide within their contexts.
+This property that appeared in the large language models is quite significant new property that appeared to be very surprising. From the examples, it can do typo checking, translation, and even math!
+
+<img src="pics/tran_2.png" width="700">
+
+Why do LLMs are able to do such things is an open area of research (*by 2023). 
+Another open question is how to find the best parameter-token balance to train these models. It costs a lot to train them.
+
+In the Wei et al. (2023) research, the authors discovered that with a _chain-of-thought_ the models can produce even better answers, by providing in the first prompt some useful examples. Why this works - also on open question. These LLMs learned a lot of things about the language that researches did not expect: trivia, coreference, lexical semantics, sentiment, deep reasoning, basic arithmetic, and more.
 
 
-
+## Lecture 10 - Post-training
 
 
 
