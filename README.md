@@ -192,6 +192,86 @@ Basically, before Transformers, most of the NLP tasks were addressed by some kin
 
 **Issues with recurrent models: linear interaction distance**
 
+The RNN systems encode linear locality, bu the problem is that they take $O(sequence\: length)$ steps for distant word pairs to interact.
+- hard to learn long-distance dependencies because of gradient problems
+- linear order of words is "baked in"; we already know linear order isn't the right way to think about sentences
+
+**Issues with recurrent models: lack of parallelizability**
+
+Forward and backward passes have $O(sequence\: length)$ unparallelizable operations
+- GPUs can perform a bunch of independent computations at once, but RNN hidden states can't be computed in full before past RNN hidden states have been computed
+- Inhibits training on huge datasets
+
+**How about attention?**
+
+- the number of unparallelizable operations does not increase with sequence length
+- all the words interact at every layer
+
+We can think of **attention** as performing fuzzy lookup in a key-value store:
+
+<img src="pics/att_4.png" width="700">
+
+<img src="pics/att_5.png" width="700">
+
+**Barriers and **
+
+- Problem: Doesn't have an inherent notion of order
+- Solution: learned absolute position representations: let all $p_i$ be learnable parameters! Learn a matrix $p \in R^{d \times n}$, and let each $p_i$ be _a column of that matrix_!
+
+- Problem: nonlinearities for DL! It's all just weighted averages
+- Easy fix: add a feed forward (FF) network to post-process each output vector
+
+- Problem: need to ensure we don't "look at the future" when predicting a sequence, like a MT or language modeling
+- Solution: TO enable parallelization, we mask out attention to future words by setting attention scores to $-\infty$.
+
+**Necessities for a self-attention building block** 
+
+<img src="pics/att_6.png" width="400">
+
+- self-attention: the basis of the method
+- position representations: specify the sequence order, since self-attention is an unordered function of its input
+- nonliniarities: at the output of the self attention block; frequently implemented as a simple FF network
+- masking: to parallelize operations while not looking at the future; keeps information about the future from "leaking" to the past
+
+Out of the box the self-attention mechanism is not working well by itself, and some crucial improvements are introduced in Transformers.
+
+**Transformer model**
+
+The first critical difference is the replacement of _Attention_ bu _Multi-Head Attention_.
+But first, let's formulate our multiplications in form off matrices:
+
+<img src="pics/att_7.png" width="700">
+
+<img src="pics/att_8.png" width="700">
+
+Another nice trick is called _Scaled Dot Product_. 
+When dimentionality $d$ grows, the dot products between vectors tend to grow as well. To balance that we do a little trick by dividing the the attantion scores by $\sqrt{\frac{d}{h}}$.
+
+<img src="pics/att_9.png" width="700">
+
+Next, two optimization tricks:
+- residual connections 
+- layer normalization
+
+In many Transformer diagrams, these are often written together as "Add & Norm".
+
+Residual connections:
+
+<img src="pics/att_10.png" width="700">
+
+Layer normalization:
+
+<img src="pics/att_11.png" width="700">
+
+In practice, the $\gamma$ and $\beta$ parts are not so important.
+
+
+
+
+
+
+
+
 
 
 
