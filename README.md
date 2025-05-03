@@ -293,6 +293,16 @@ The problems:
 
 ## Lecture 9 - Pretraining
 
+**Word structure and subword models**
+
+We assume fixed vocabulary, and it is a problem, where we encounter new words or typos.
+Now, to build vocabularies, we use sub-words. The example is the _byte-pair encoding algorithm_:
+- start with letters and "end-of-word" symbols
+- using a corpus of text, find the most common adjacent characters and add as a subword
+- Replace instances of the character pair with the new sub-word; repeat until desired vocab size 
+
+**Motivating word meaning and context**
+
 
 
 
