@@ -372,8 +372,81 @@ In the Wei et al. (2023) research, the authors discovered that with a _chain-of-
 
 ## Lecture 10 - Post-training
 
+The scale of LLM training is enormous both in terms of the model sizes and in terms of data required to train the models.
+IN the lecture, it is shown that a language model learns really deep concepts of world understanding, math, and more.
 
+**emergent _zero-shot_ and _few-shot_ learning**
 
+The great phenomenon is that GPT-2 has an ability for **emergent _zero-shot_ learning** just out of the context. It outperformed this way many benchmarks in many different tasks and metrics.
+Example — summarization prompt: `<some artice> TL;DR:`
+
+Another cool new property is the **emergent _few-shot_ learning**: put several examples in the context and then provide the task.
+Example — translation prompt: `<word in english> => <its translation>, <word in english> => <its translation>, ..., <word in english> => <its translation>, <desired word to translate> =>` or similar example for logic. Crazy! ..isn't it?!
+
+These models are still have their limits: harder richer tasks, multi-step reasoning. 
+_Chain-of-thought (CoT) prompting_ push these boundaries even further. You show the model examples with reasoning steps. Then the models can imitate this for new questions.
+Another trick is to write in the prompt: `A: Let's think step by step.` 
+Manual CoT (showing several examples with reasoning) is still better, but this Zero-shot CoT (just say to it to think step-by-step) greatly outperforms the Zero-Shot GPT model that just does vanilla autocomplete.
+
+These techniques, though, limit to what you can fit in context. 
+Complex tasks will probably need gradient steps.
+
+**Instruction finetuning**
+
+BUt language modeling is not assisting users. LLMs learn to predict the next token, so how can we finetune them for assistant rather than trying to trick them to be one with some cleaver prompts? The instruction finetuning is the answer!
+The recipe is:
+- collect examples of (instruction, output) pairs across many tasks and finetune an LM
+- Evaluate on unseen tasks
+
+There are some huge data collections for this purpose with many examples of different tasks such as classification, sequence tagging, rewriting, translation, QA, etc.
+
+How to evaluate such thing is a very tricky question. It is hard to evaluate those things, and one of the popular proposed solutions is the Massive Multitask Language Understanding (MMLU) benchmark that has 57 diverse knowledge-intensive tasks. Some models already crossed 90% success rate of the metric.
+
+Once again, bigger models with bigger datasets - perform better.
+
+How the finetuning data is structured, how much do we need, and how the data quality influences the result are still open questions.
+
+There are some limitations for instruction finetuning as well:
+- it is costly to collect high-quality data (some physics PhDs need to write answers)
+- it is unclear what is the right answer to the open-ended questions (write me a poem)
+- language modeling penalizes all token-level mistakes equally, but some errors are worse than others
+- humans generate suboptimal answers 
+- even with isntruction finetuning, there a mismatch between the LM objective and the objective of "satisfy human preferences" - can we do it direcly? let's see...
+
+**Optimizing for human preferences (DPO/RLHF)**
+
+There are three steps for RLHF: 
+
+<img src="pics/tran_3.png" width="700">
+
+But how we get the reward model?
+
+Human-in-the-loop is expensive.
+Solution: instead of directly asking humans for preferences, model their preferences as a separate NLP problem.
+ 
+But human judgments are noisy and miscalibrated.
+Solution: instead of asking for direct ratings, ask for pairwise comparisons, which can be more reliable.
+
+Train a reward model with some penalty for stabilizing:
+
+<img src="pics/tran_4.png" width="700">
+
+How to optimize? - RL!
+
+<img src="pics/tran_5.png" width="700"> 
+
+The difference between models with and without RLHF is very big - humans prefer answers from RLHF rather than from other humans.
+
+RLHF is veeeery complicated, can we do something simpler? Yes - **Direct Preference Optimization** or DPO for short.
+
+A lot of math there in DPO explanation. 
+But the basic idea is that DPO takes the RM function and uses it to build a simple classification loss function that connects preference data to language models parameters directly.
+
+ <img src="pics/tran_6.png" width="700"> 
+
+Not sure which approach is the best.
+
+With the introduction of RLHF/DPO, the LLM behaviours produce significantly more detailed, nicer, cleaner, organised answers.
 
 
 
