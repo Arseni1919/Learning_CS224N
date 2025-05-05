@@ -547,6 +547,96 @@ Another take: use the metric that is best for your purpose.
 ## Lecture 12 - Efficient Training
 
 
+### Mixed Precision Training
+
+If CUDA OOM errors something to do with memory -> use FP16 instead of FP32 (`torch.float16`).
+
+Some another trick that uses both 16 and32 floats.
+
+In PyTorch you can play with the scaler option to implement the mixed precision:
+
+<img src="pics/eff_1.png" width="700">
+
+But if we have very big and very small numbers? Just use `BFloat16` 8 bits of scale, 7 bits of precision - less precision compared to FP16, but the same scale as FP32. And it is ok for NN.
+
+<img src="pics/eff_2.png" width="700">
+
+Using `BFloat16` makes the model faster cheaper, requiring less memory, and even gaining better results!
+
+Not all GPUs can handle BFloat16 - check for it. 
+
+### Multi-GPU Training with DDP / FSDP
+
+To train the model with several GPUs there are some cleaver techniques to distribute and sinc the memory across the GPUs.
+
+The first simplest method is Distributed Data Parallel:
+
+<img src="pics/eff_4.png" width="700">
+
+Run different data chunks per every GPU, do the forward step, gather other updates from other GPUs. Do the backward step.
+
+Another much better solution is to use ZeRO Stage-2: optimize state + gradient sharding. It gets more memory for free.
+
+<img src="pics/eff_5.png" width="700">
+
+Next solution is to shard the parameters as well - ZeRO Stage-3 (Full FSDP):
+
+Only the part of parameters are extracted every time (let's say if I do the forward pass on layer f1, only exptract the parameters to this layer, and then free them; that is how you preserve memory).
+
+<img src="pics/eff_6.png" width="700">
+
+
+### Parameter Efficient Finetuning: LoRA
+
+It is important to think about more efficient ways to do finetuning. It is not a small topic.
+
+A nice trick to use to train less parameters is to use LoRA technique that adds a little bit additional low-rank parameters to weights of self-attention and train only them. It turns out very useful trick to do.
+
+<img src="pics/eff_7.png" width="700">
+
+<img src="pics/eff_8.png" width="700">
+
+### To summarize
+
+<img src="pics/eff_3.png" width="700">
+
+
+
+## Lecture 13 - Brain-Computer Interfaces
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Credits
 
