@@ -449,6 +449,102 @@ Not sure which approach is the best.
 With the introduction of RLHF/DPO, the LLM behaviours produce significantly more detailed, nicer, cleaner, organised answers.
 
 
+## Lecture 11 - Benchmarking
+
+Benchmarks are important. At different steps in the project different methods for evaluations are required.
+
+Two major types of evaluations:
+- Close-ended evaluations: with concrete labels
+- Open-ended evaluations: without labels
+
+
+### Close-Ended Evaluation
+
+- limited number of potential answers 
+- Often one or just a few correct answers 
+- Enables automatic evaluation as in ML
+
+Benchmarks (not full list):
+- Sentiment analysis: SST / IMDB / Yelp ...
+- Entailment: SNLI, CB, RTE
+- Name entity recognition: CoNLL-2003
+- Part-of-Speech: PTB
+- Coreference resolution: WSC
+- Question Answering: Squad 2
+- Reading texts: BooIQ, MultiRC
+- Close-ended multi-task benchmark: superGLUE
+
+Metrics: accuracy / precision / recall / f1-score / ROC
+
+
+### Open-Ended Evaluations
+
+- long generations with too many possible correct answers to enumerate, can't use standard ML metrics
+- There are now better and worse answers (not just rights or wrong)
+
+- Examples:
+- summarization: CNN-DM / Gigaword
+- translation: WMT
+- instruction-following: Chatbot Arena / AlpacaEval / MT-Bench
+
+How to evaluate:
+- Content overlap metrics
+  - n-Gran overlap metrics: **BLEU** (precision), **ROUGE** (recall), METEOR, CIDEr, etc.
+- Model-based metrics: use learned representations of words and sentences to compute semantic similarity between generated and reference texts. 
+  - BERTSCORE did a good job to present s smart averaging of those embeddings with BERT to build the metric.
+  - BLEURT: in this work they finetune the model specificaly to be good in the BLUE benchmark
+  - Reference free evals: AlpacaEval (good), MT-Bench
+- Human evaluations: gold standard in developing new automatic metrics
+  - Ask humans to evaluate.
+  - Disadvantages: slow, expensive, inter-annotator disagreement, intra-annotator disagreement, not reproducible, precision not recall, biases, how to select annotators, etc.
+
+- Chatbot Arena: collect human votes to compute an ELO-based LLM leaderboard (like in chess).
+  - huge community effort
+  - new models take a long time to benchmark
+  - only big guys are there 
+- Another way to evaluate with is cheeper - use a LM evaluator
+  - use a LM as a reference free evaluator
+  - surprisingly high correlations with human
+  - common versions: AlpacaEval, MT-bench
+  - AlpacaFarm authors discovered that models has more agreement with humans than humans with themselves, because the models has less variance compared to real humans
+  - AlpacaEval:
+
+<img src="pics/eval_1.png" width="700">
+
+
+### Current Evaluation of LLM
+
+- perplexity (inverse prob of corpus) for pretraining:
+  - usually is highly correlates with downstream performance
+  - hard to compare with different tokenizers
+
+<img src="pics/eval_2.png" width="700">
+
+- Everything for pretraining and finetuned:
+  - HELM
+  - HF open-llm leaderboard
+  - MMLU
+- Arena-like for finetuned
+  - let people decide
+
+Usually, if a model performs well in code it performs well in reasoning as well, a nice correlation.
+
+AgentBoard evaluates agents.
+
+How to improve benchmarks?
+- update the questions constantly
+- check if the model too much sure about the answer - so it is sign that hte model was trained on the question
+- reorder the questions to see the reaction of the model, it is was pretrained on the dataset
+
+There are a lot of issues and challenges with evaluations that are discussed in the lecture.
+One of the biggest challenges is that the researchers are not incentivized to compare with new metric.
+
+Big take: do not blindly believe numbers, just check the outputs yourself.
+
+Another take: use the metric that is best for your purpose.
+
+
+## Lecture 12 - Efficient Training
 
 
 
