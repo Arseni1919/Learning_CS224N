@@ -602,7 +602,161 @@ A nice trick to use to train less parameters is to use LoRA technique that adds 
 
 
 
-## Lecture 13 - Brain-Computer Interfaces
+## Lecture 13 - Speech Brain-Computer Interfaces for Restoring Natural Communication
+
+To understand the real human brain is a science by itself. It is a super challenging and important task.
+
+
+## Lecture 14 - Reasoning and Agents
+
+A very fresh topic in the world right now.
+
+**What is reasoning?**
+
+Using _facts_ and _logic_ to arrive at an answer.
+
+**Deductive reasoning:** use logic to go from premise to firm conclusion
+
+**Inductive reasoning:** from observation, predict a likely conclusion. Just describe the conclusion that you observe.
+
+**Abductive reasoning:** from observation, predict the most likely explanation. Explain what is going on.
+
+**Formal reasoning:** follows formal rules of logic along axiomatic knowledge to derive conclusions.
+
+**Informal reasoning:** uses intuition, experience, common sense to arrive at answers.
+
+For most of this lecture, be "reasoning" we mean informal deductive reasoning, ofter involving multiple steps.
+
+
+**Can current LLMs reason?**
+
+You can do reasoning via _chain-of-thought prompting_ by providing some examples of reasoning in the prompt itself.
+
+Another surprising this is you can just use _zero-shot CoT prompting_ by saying to the model: `Let's think step by step`.
+
+OR you can just sample the model multiple times and see which answer appears the most. Then, you return the answer. This method is called _CoT with self-consistency_. It works much better than the standard CoT.
+
+Another way to do it is _ensemble prompting_, that is to ask the same question X number of times just in different forms. The _CoT with self-consistency_ is still better here. 
+ 
+Least-to-Most prompting decomposes the query into sub-problems and cracks the problem one by one solving the sub-problems. This is much better than the standard CoT, but (!) with the right initial prompt, the standard CoT can be as good as other methods presented here.
+
+ **Can we get reasoning-like behaviour with smaller LMs by teaching them to imitate larger models?**
+
+We can do it via distillation. 
+_Orca_ is an instruction-tuning small LMs with CoT rationales.
+How to train:
+- collect a wide variety of instructions from the FLAN-v2 collection
+- Prompt GPT4 or ChatGPT with these instructions along with a system message
+- Finetune Llama-13b on outputs generated via ChatGPT or GPT4
+
+Evaluation: _BigBench-hard_, a collection of 23 Big-Bench tasks with a special focus on multi-step reasoning.
+
+Orca-13B outperformed Vicuna-13B on BigBench-hard. 
+
+Can we finetune the big model to do better at reasoning? 
+ReSR^{EM} explores just that. It alternated between the following two steps:
+- Generate (E-step): given reasoning problem, sample multiple from language model. Filter based on some (problem specific) function (e.g. correctness, etc.)
+- Improve (M-step): update the LM to maximize the prob of filtered solutions, using supervised finetuning
+
+It gives an improvement over the human-provided reasoning.
+
+It was found that CoT rationales are often not faithful.
+
+The researchers checked by changing a bit the questions (counterfractuals) if the models really reasons or just memorized the answers from the dataset. And yes there is  a drop in performance. 
+- Draamtic drop in performance for GPT-4
+- No drop in performance for humans
+
+The conclusion: no systematic proof that the model really reasons.
+ 
+**Language Model Agents**
+
+<img src="pics/ag_1.png" width="700"> 
+
+There are many applications of
+- natural language interfaces
+- UI automation
+- multi-step tool use
+- etc.
+
+Pre LLMs:
+- Idea 1: directly map from instructions to action sequences like Machine Translation
+- Idea 2: infer executable, structured plans from (instruction, trajectory) pairs and train a model to go from instructions to plans
+- Idea 3: use RL to directly map instructions to actions
+
+Nowadays:
+
+<img src="pics/ag_2.png" width="700"> 
+
+Instead of complicated systems, just use a LM as a policy.
+THe simplest way to do the task is to prompt LM in a loop the ReACT approach.
+
+<img src="pics/ag_3.png" width="700"> 
+
+Examples for benchmark environment: 
+
+_MiniWoB++_:
+- not real world
+- relatively short-horizon
+- Zero-shot performance of even the biggest LLMs is far from perfect
+
+_WebArena_:
+- additional utility tools: maps, calculators, etc.
+- multi-tab browsing
+- long-horizon tasks
+- evaluates functional correctness - the final result is correct
+
+_WebLINX_:
+- web-interations on real websites
+- conversational - can ask info from human
+- multi-tab browsing
+- turn-level metrics for evaluation
+- not an env, but a collection of interactions
+- for evaluation - good, for learning - no
+
+**Training data for Language Model Agents**
+
+- Standard practice: in-context learning with few-shot demos of humans performing following similar instructions
+- This is still not scalable / reliable
+
+Can we do better?
+
+Use exploration + model generated data.
+The agent produces some trajectories and then another model describes the output (last state) of trajectories and constructs a labeled data point.
+
+This method is called: BAGEL.
+
+<img src="pics/ag_4.png" width="700"> 
+
+
+Multimodality?
+
+LLaVA:
+
+<img src="pics/ag_5.png" width="700"> 
+
+Pix2Struct:
+
+<img src="pics/ag_6.png" width="700">
+
+
+Conclusions of the section:
+- Reasoning in Language Models:
+  - via prompting
+  - by distilling rationales from big LMs into small LMs
+  - by finetuning LMs on their own rationales , iteratively
+  - counterfractual evaluation reveals reasoning may not be systematic
+- Language model agents:
+  - prompting and in-context learning
+  - BAGEL for synthetic demonstrations: exploration and iterative relabeling
+  - multimodality
+  - benchmarks are still challenging
+
+
+
+
+## Lecture 15 - Life After DPO
+
+
 
 
 
