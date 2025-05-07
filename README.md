@@ -919,7 +919,9 @@ Interesting. Just to listen.
 
 ## Credits
 
-- [CS224N: Natural Language Processing with Deep Learning](https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1246/)
+- [CS224N | Stanford / Winter 2024](https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1244/)
+- [CS224N | Stanford / Spring 2024 - main for this repo](https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1246/)
+- [CS224N | Stanford / Winter 2025](https://web.stanford.edu/class/cs224n/)
 
 
 
