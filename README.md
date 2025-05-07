@@ -1,5 +1,32 @@
 # Stanford CS224N: NLP with Deep Learning | Spring 2024
 
+**GPUs from:**
+- google colab
+- kaggle notebooks
+- together AI
+
+## Contents
+
+- Lecture 1 - Intro and Word Vectors
+- Lecture 2 - Word Vectors and Language Models
+- Lecture 3 - Backpropagation, Neural Network
+- Lecture 4 - Dependency Parsing
+- Lecture 5 - Recurrent Neural
+- Lecture 6 - Sequence to Sequence
+- Lecture 7 - Attention and LLM Intro
+- Lecture 8 - Self-Attention and Transformers
+- Lecture 9 - Pretraining
+- Lecture 10 - Post-training
+- Lecture 11 - Benchmarking
+- Lecture 12 - Efficient Training
+- Lecture 13 - Speech Brain-Computer Interfaces for Restoring Natural Communication
+- Lecture 14 - Reasoning and Agents
+- Lecture 15 - Life After DPO
+- Lecture 16 - ConvNets and TreeRNNs
+- Lecture 17 - Multimodal Deep Learning
+- Lecture 18 - NLP, Linguistics, Philosophy
+- Credits
+
 ## Lecture 1 - Intro and Word Vectors
 
 - Language is a very deep consept that allows us to achieve a lot of things. It is complex and changing.
@@ -7,7 +34,7 @@
 ### P: (word2vec) Efficient Estimation of Word Representations in Vector Space
 
 They introduced the idea of presenting the words as vectors:
-- we have a large corpus ("body" (corpora in plural)) of text:a long list of words
+- we have a large corpus ("body" (corpora in plural)) of text ,which is just a long list of words
 - go through each position _t_ in the text, which has a center word _c_ and context ("outside") word _o_
 - use the similarity of the word vectors for _c_ and _o_ to calc the prob of _o_ given _c_ (or vice versa)
 - keep adjusting the vectors to maximize this prob
@@ -751,9 +778,6 @@ Conclusions of the section:
   - multimodality
   - benchmarks are still challenging
 
-
-
-
 ## Lecture 15 - Life After DPO
 
 Some definitions for "alignment" of models:
@@ -830,42 +854,67 @@ Then, the RewardBench and RewardBench 2.0 are presented.
 The literature is moving. 
 Online methods is the hot topic.
 
-
 ## Lecture 16 - ConvNets and TreeRNNs
 
+There are some ideas that flow around that are not in the central focus on the mainstream research. But still it is important to know at list some of them, because maybe some breakthroughes may come from these side-fields.
 
+RNN and ConvNets for a long time were opposition approaches one towards another. 
 
+A reminder:
 
+<img src="pics/con_1.png" width="700">
 
+Also for language modality:
+- If we want to preserve the input and output sizes the same, we use _padding_ for this - to add zeros around the input.
+- When we do convolution on words, we do it in _1-D_ on vectors.
+- We are also using _several filters_ per input.
+- We use a _max pooling_ function after the convolution, or average, or both.
+- _Loca max pooling_ is to do max only on the strided sections, it returns more than one item.
+- _k-max pooling_ returns _k_ maximum items instead of the single item.
+- If you want to avoid overlap, set the _stride_. If the kernel is 3 and stride is 2, then the overlap is only 1 instead of 2.
+- _Dilation_ is the way to spread out the kernel. Let's say the kernel is 3 and the dilation is 2, so the items we will take 1, 3, 5.
+- _Batch Normalization_ - often used in CNNs.
 
+A very well-known piece of work is of Yoon Kim (2014). They did a sentiment classifier. The algorithm was simple and the results were quite good, so that is why this work drag attention to itself.
 
+Another interesting work is the VD-CNN algorithm which is discussed in detail in the lecture.
 
+Then, the TreeRNN was apresented. In this work, they utilize some inner structure of sentences that can construct tree of words. Then, RNN uses with structure and provides better sentiment analysis, sometimes even better than transformers. Still, transformers win in the overall tasks.
 
+## Lecture - Multimodal Deep Learning
 
+Text and Image together:
+- CLIP
+- VisualBERT
+- ViLBERT
+- LXMERT
+- PixelBERT
+- UNITER
+- ViLT
+- FLAVA
+- PMD dataset
 
+Now the trend for generative models.
+- SimVLM
+- CoCa
+- Frozen
 
+Evaluation:
+- COCO - common object in contex 
+- VQA - visual question answering
+- CLEVR
+- Hateful Memes
+- Winoground
+ 
+Other:
+- Whisper (audio / speech)
+- MERLOT (video)
+- POINT-E (text to 3D)
+- Olfactory embeddings (smell)
 
+## Lecture 18 - NLP, Linguistics, Philosophy
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Interesting. Just to listen.
 
 
 ## Credits
