@@ -744,7 +744,7 @@ Conclusions of the section:
   - via prompting
   - by distilling rationales from big LMs into small LMs
   - by finetuning LMs on their own rationales , iteratively
-  - counterfractual evaluation reveals reasoning may not be systematic
+  - counterfactual evaluation reveals reasoning may not be systematic
 - Language model agents:
   - prompting and in-context learning
   - BAGEL for synthetic demonstrations: exploration and iterative relabeling
@@ -756,6 +756,82 @@ Conclusions of the section:
 
 ## Lecture 15 - Life After DPO
 
+Some definitions for "alignment" of models:
+- Instructive fine-tuning (IFT): training a model to follow use instructions (usually via autoregressive LM loss)
+- Supervised fine-tuning (SFT): Training a model to learn task-specific capabilities (usually via autoregressive LM loss)
+- Alignment: general notion of training a model to mirror user desires, any loss function
+- Reinforcement learning from human feedback (RLHF): specific technical tool for training ML models from human data
+- Preference fine-tuning: using labeled preference data to fine-tune a LM (either with RL, DPO, or another looss function), there's also learning to rank 
+
+**IFT**
+
+- key idea:
+  - start with a base LM
+  - continue training a transformer with pairs of (question-answer)
+
+**RLHF**
+
+- sets the objective, which is very important
+- this objective is then maximized by DPO
+
+
+**DPO**
+
+- it is a good place to start
+- easy to implement
+- easy to debug
+- has a reward function (separate issue)
+
+**DPO vs RL (PPO, REINFORCE, ...)**
+
+- DPO and PPO are very different optimizers
+- it is learning directly from preferences vs. using RL update rules
+
+Key resources:
+- ShareGPT
+- OpenAssistant
+
+Papers that started the hipe of DPO:
+- Zephyr betta (low learning rate $10^{-7}$)
+- Tulu 2 (used big TPUs)
+- then came the plethora of papers that used DPO
+
+**Life after DPO**
+
+- better evaluation for alignment
+  - RewardBench
+  - building a suite of tools like ArenaHard
+- How can we improve upon DPO models?
+  - PPO vs DPO performance study 
+  - online DPO variants
+
+Reward model training
+
+- remember how ChatGPT asks you to choose between the two answers? this is how it is trained on it:
+
+<img src="pics/re_1.png" width="700">
+
+<img src="pics/re_2.png" width="700">
+
+So the question is how to evaluate and to improve these reward models. 
+
+Then, the RewardBench and RewardBench 2.0 are presented. 
+
+**Fine-tuning a 'good' model**
+
+- SFT is a good starting point to compare with
+- DPO is a bit better
+- DPO just with better data (!) is even better in performance
+- PPO is a little bit better
+- Scaling up the reward model is a little bit better also and worse in other metrics
+- Adding more prompts to RLHF does not help
+
+
+The literature is moving. 
+Online methods is the hot topic.
+
+
+## Lecture 16 - ConvNets and TreeRNNs
 
 
 
